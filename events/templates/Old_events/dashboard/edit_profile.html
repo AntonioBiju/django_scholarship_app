@@ -1,0 +1,145 @@
+{% extends 'events/layouts/base.html' %}
+{% load static %}
+
+{% block content1 %}
+<div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto">
+        <!-- Profile Header -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden mb-6">
+            <div class="p-6">
+                <div class="flex items-center space-x-4">
+                    {% if student.profile_photo %}
+                        <img src="{{ student.profile_photo.url }}" alt="Profile Photo" 
+                             class="h-20 w-20 rounded-full object-cover">
+                    {% else %}
+                        <div class="h-20 w-20 rounded-full bg-gray-200 flex items-center justify-center">
+                            <span class="text-gray-500 text-2xl">{{ student.name|first|upper }}</span>
+                        </div>
+                    {% endif %}
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900">Edit Profile</h1>
+                        <p class="text-gray-600">Update your registration information</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Forms -->
+        <form method="post" enctype="multipart/form-data" class="space-y-6">
+            {% csrf_token %}
+
+            <!-- Personal Information -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden mb-6">
+                <div class="p-6">
+                    <h2 class="text-lg font-semibold mb-4 pb-2 border-b">Personal Information</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {% for field in personal_form %}
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-700">
+                                {{ field.label }}
+                            </label>
+                            {{ field }}
+                            {% if field.errors %}
+                            <p class="text-red-500 text-xs italic">{{ field.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Family Details -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden mb-6">
+                <div class="p-6">
+                    <h2 class="text-lg font-semibold mb-4 pb-2 border-b">Family Details</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {% for field in family_form %}
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-700">
+                                {{ field.label }}
+                            </label>
+                            {{ field }}
+                            {% if field.errors %}
+                            <p class="text-red-500 text-xs italic">{{ field.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Academic Records -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden mb-6">
+                <div class="p-6">
+                    <h2 class="text-lg font-semibold mb-4 pb-2 border-b">Academic Records</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {% for field in academic_form %}
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-700">
+                                {{ field.label }}
+                            </label>
+                            {{ field }}
+                            {% if field.errors %}
+                            <p class="text-red-500 text-xs italic">{{ field.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="flex justify-end space-x-4">
+                <a href="{% url 'dash' %}" 
+                   class="bg-gray-500 text-white px-6 py-2 rounded-md hover:bg-gray-600">
+                    Cancel
+                </a>
+                <button type="submit" 
+                        class="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600">
+                    Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const dobInput = document.querySelector('input[type="date"]');
+    if (dobInput) {
+        dobInput.addEventListener('change', function() {
+            const dob = new Date(this.value);
+            const today = new Date();
+            let age = today.getFullYear() - dob.getFullYear();
+            const monthDiff = today.getMonth() - dob.getMonth();
+            
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+                age--;
+            }
+            
+            const ageInput = document.querySelector('input[name="personal-age"]');
+            if (ageInput) {
+                ageInput.value = age;
+            }
+        });
+    }
+});
+
+// Preview profile photo before upload
+const profilePhotoInput = document.querySelector('input[type="file"]');
+if (profilePhotoInput) {
+    profilePhotoInput.addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const profileImage = document.querySelector('.profile-photo-preview');
+                if (profileImage) {
+                    profileImage.src = e.target.result;
+                }
+            };
+            reader.readAsDataURL(this.files[0]);
+        }
+    });
+}
+</script>
+{% endblock content1 %}

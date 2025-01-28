@@ -1,0 +1,71 @@
+{%extends 'events/layouts/base.html'%}
+{%block dash_title%}  Matching Scholarships {%endblock dash_title%}
+{%block content1%}
+
+    <div class="relative flex size-full min-h-screen flex-col bg-slate-50 group/design-root overflow-x-hidden" style='font-family: "Public Sans", "Noto Sans", sans-serif;'>
+      <div class="layout-container flex h-full grow flex-col">
+    
+        <div class="px-40 flex flex-1 justify-center py-5">
+          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+            <h2 class="text-[#0e141b] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Matching scholarships</h2>
+            <div class="px-4 py-3 @container">
+              <div class="flex overflow-hidden rounded-lg border border-[#d0dbe7] bg-slate-50">
+                <table class="flex-1">
+                  <thead>
+                    <tr class="bg-slate-50">
+                      <th class="table-0871e20d-4e63-4281-8637-63ea9d682d8a-column-120 px-4 py-3 text-left text-[#0e141b] w-[400px] text-sm font-medium leading-normal">
+                        Scholarship
+                      </th>
+                      <th class="table-0871e20d-4e63-4281-8637-63ea9d682d8a-column-240 px-4 py-3 text-left text-[#0e141b] w-[400px] text-sm font-medium leading-normal">
+                        Eligibility
+                      </th>
+                      <th class="table-0871e20d-4e63-4281-8637-63ea9d682d8a-column-360 px-4 py-3 text-left text-[#0e141b] w-[400px] text-sm font-medium leading-normal">
+                        Deadline
+                      </th>
+                      <th class="table-0871e20d-4e63-4281-8637-63ea9d682d8a-column-480 px-4 py-3 text-left text-[#0e141b] w-[400px] text-sm font-medium leading-normal">Benefit</th>
+                      <th
+                        class="table-0871e20d-4e63-4281-8637-63ea9d682d8a-column-600 px-4 py-3 text-left text-[#0e141b] w-60 text-[#4e7297] text-sm font-medium leading-normal"
+                      ></th>
+                    </tr>
+                  </thead>
+                  {%for scholarship in scholarships%}
+                  <tbody>
+                    <tr class="border-t border-t-[#d0dbe7]">
+                      <td class="table-0871e20d-4e63-4281-8637-63ea9d682d8a-column-120 h-[72px] px-4 py-2 w-[400px] text-[#0e141b] text-sm font-normal leading-normal">
+                        {{scholarship.name}}
+                      </td>
+                      <td class="table-0871e20d-4e63-4281-8637-63ea9d682d8a-column-240 h-[72px] px-4 py-2 w-[400px] text-[#4e7297] text-sm font-normal leading-normal">
+                        {{scholarship.eligibility_criteria}}
+                      </td>
+                      <td class="table-0871e20d-4e63-4281-8637-63ea9d682d8a-column-360 h-[72px] px-4 py-2 w-[400px] text-[#4e7297] text-sm font-normal leading-normal">
+                       {{scholarship.application_deadline}}
+                      </td>
+                      <td class="table-0871e20d-4e63-4281-8637-63ea9d682d8a-column-480 h-[72px] px-4 py-2 w-[400px] text-[#4e7297] text-sm font-normal leading-normal">
+                        {{scholarship.benefits}}</td>
+                      <td class="table-0871e20d-4e63-4281-8637-63ea9d682d8a-column-600 h-[72px] px-4 py-2 w-60 text-[#4e7297] text-sm font-bold leading-normal tracking-[0.015em]">
+                       <a href="{{scholarship.link}}"> Apply</a>
+                      </td>
+                    </tr>{%empty%}
+                    <td class="table-0871e20d-4e63-4281-8637-63ea9d682d8a-column-480 h-[72px] px-4 py-2 w-[400px] text-[#4e7297] text-sm font-normal leading-normal">
+                     No Scholarship Are Found</td>
+                   </tbody>
+
+                  {%endfor%}
+                </table>
+              </div>
+              <style>
+                @container(max-width:120px){.table-0871e20d-4e63-4281-8637-63ea9d682d8a-column-120{display: none;}}
+                @container(max-width:240px){.table-0871e20d-4e63-4281-8637-63ea9d682d8a-column-240{display: none;}}
+                @container(max-width:360px){.table-0871e20d-4e63-4281-8637-63ea9d682d8a-column-360{display: none;}}
+                @container(max-width:480px){.table-0871e20d-4e63-4281-8637-63ea9d682d8a-column-480{display: none;}}
+                @container(max-width:600px){.table-0871e20d-4e63-4281-8637-63ea9d682d8a-column-600{display: none;}}
+              </style>
+            </div>
+          </div>
+        </div>
+        
+          </div>
+        </footer>
+      </div>
+    </div>
+ {%endblock content1 %}

@@ -1,0 +1,79 @@
+{% extends 'events/layouts/base.html' %}
+{% load static %}
+
+{% block content1 %}
+<div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="px-8 py-6">
+            <h2 class="text-2xl font-bold text-center mb-8">Student Registration</h2>
+            
+            <!-- Progress Steps -->
+            <div class="flex justify-between mb-12">
+                <div class="{% if step == 1 %}bg-blue-500 text-white{% else %}bg-gray-200 text-gray-700{% endif %} px-6 py-2 rounded-full">
+                    Personal Info
+                </div>
+                <div class="{% if step == 2 %}bg-blue-500 text-white{% else %}bg-gray-200 text-gray-700{% endif %} px-6 py-2 rounded-full">
+                    Family Details
+                </div>
+                <div class="{% if step == 3 %}bg-blue-500 text-white{% else %}bg-gray-200 text-gray-700{% endif %} px-6 py-2 rounded-full">
+                    Academic Records
+                </div>
+            </div>
+
+            <form method="post" enctype="multipart/form-data" class="space-y-6">
+                {% csrf_token %}
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {% for field in form %}
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-gray-700">
+                            {{ field.label }}
+                        </label>
+                        {{ field }}
+                        {% if field.errors %}
+                        <p class="text-red-500 text-xs italic">{{ field.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="flex justify-between mt-8">
+                    {% if step > 1 %}
+                    <button type="button" onclick="window.history.back()" 
+                            class="bg-gray-500 text-white px-6 py-2 rounded-md hover:bg-gray-600">
+                        Previous
+                    </button>
+                    {% endif %}
+                    <button type="submit" 
+                            class="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 ml-auto">
+                        {% if step == 3 %}Submit{% else %}Next{% endif %}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const dobInput = document.querySelector('input[type="date"]');
+    if (dobInput) {
+        dobInput.addEventListener('change', function() {
+            const dob = new Date(this.value);
+            const today = new Date();
+            let age = today.getFullYear() - dob.getFullYear();
+            const monthDiff = today.getMonth() - dob.getMonth();
+            
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+                age--;
+            }
+            
+            const ageInput = document.querySelector('input[name="age"]');
+            if (ageInput) {
+                ageInput.value = age;
+            }
+        });
+    }
+});
+</script>
+{% endblock content1 %}

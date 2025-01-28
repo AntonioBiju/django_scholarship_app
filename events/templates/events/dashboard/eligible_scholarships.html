@@ -1,0 +1,50 @@
+{%extends 'events/layouts/base.html'%}
+{% block title%}
+Eligible Scholarships 
+{% endblock title%}
+{%block content%}
+<div class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-6">
+        <h1 class="text-2xl font-bold text-center mb-6">Eligible Scholarships</h1>
+
+        <!-- Iterate over categories -->
+        <div id="categories">
+            {% for category, scholarships in categorized_scholarships.items %}
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold text-gray-700 mb-4">{{ category }} Scholarships</h2>
+                {% if scholarships %}
+                <!-- Table for Scholarships -->
+                <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+                    <table class="table-auto w-full text-left text-gray-700">
+                        <thead>
+                            <tr class="bg-gray-200">
+                                <th class="px-4 py-2">Scholarship Name</th>
+                                <th class="px-4 py-2">Scholarship Benefits</th>
+                                <th class="px-4 py-2">Scholarship Deadline</th>
+                                <th class="px-4 py-2">Scholarship Link</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for scholarship in scholarships %}
+                            <tr class="border-b">
+                                <td class="px-4 py-2">{{ scholarship.name }}</td>
+                                <td class="px-4 py-2">{{ scholarship.benifits }}</td>
+                                <td class="px-4 py-2">{{ scholarship.deadline }}</td>
+                                <td class="px-4 py-2">
+                                    <a href="{{ scholarship.link }}" class="text-blue-500 underline" target="_blank">Apply Now</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <!-- No Scholarships Message -->
+                <p class="mt-4 text-center text-gray-500">No scholarships are available in this category.</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{%endblock content%}

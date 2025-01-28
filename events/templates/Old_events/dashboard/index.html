@@ -1,0 +1,114 @@
+{%extends 'events/layouts/base.html'%}
+{% block content1 %}
+        <div class="px-40 flex flex-1 justify-center py-5">
+          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+            <div class="flex flex-wrap justify-between gap-3 p-4">
+              <p class="text-[#0e151b] text-4xl font-black leading-tight tracking-[-0.033em] min-w-72">Student Dashboard</p>
+            </div>
+            {% if name %}
+            <div class="flex p-4 @container">
+              <div class="flex w-full flex-col gap-4 @[520px]:flex-row @[520px]:justify-between @[520px]:items-center">
+                <div class="flex gap-4">
+                  <div
+                    class="bg-center bg-no-repeat aspect-square bg-cover rounded-full min-h-32 w-32"
+                    style='background-image: url({{profile.url}});'
+                  ></div>
+                  <div class="flex flex-col justify-center">
+                    <p class="text-[#0e151b] text-[22px] font-bold leading-tight tracking-[-0.015em]">{{name}}</p>
+                    <p class="text-[#507695] text-base font-normal leading-normal">Student</p>
+                  </div>
+                </div>
+                <a href="{%url 'edit'%}">
+                <button
+                  class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#e8eef3] text-[#0e151b] text-sm font-bold leading-normal tracking-[0.015em] w-full max-w-[480px] @[480px]:w-auto"
+                  href = "{%url 'edit'%}"
+                  >
+                  
+                  <span class="truncate">Edit Profile</span>
+                </button></a>
+              </div>
+            </div>
+            <h3 class="text-[#0e151b] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Personal Information</h3>
+            <div class="p-4 grid grid-cols-[20%_1fr] gap-x-6">
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1dce6] py-5">
+                <p class="text-[#507695] text-sm font-normal leading-normal">Name</p>
+                <p class="text-[#0e151b] text-sm font-normal leading-normal">{{name}}</p>
+              </div>
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1dce6] py-5">
+                <p class="text-[#507695] text-sm font-normal leading-normal">Age</p>
+                <p class="text-[#0e151b] text-sm font-normal leading-normal">{{age}}</p>
+              </div>
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1dce6] py-5">
+                <p class="text-[#507695] text-sm font-normal leading-normal">Date of Birth</p>
+                <p class="text-[#0e151b] text-sm font-normal leading-normal">{{dob}}</p>
+              </div>
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1dce6] py-5">
+                <p class="text-[#507695] text-sm font-normal leading-normal">Gender</p>
+                <p class="text-[#0e151b] text-sm font-normal leading-normal">{{gender}} </p>
+              </div>
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1dce6] py-5">
+                <p class="text-[#507695] text-sm font-normal leading-normal">Email</p>
+                <p class="text-[#0e151b] text-sm font-normal leading-normal">{{email}}</p>
+              </div>
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1dce6] py-5">
+                <p class="text-[#507695] text-sm font-normal leading-normal">Caste</p>
+                <p class="text-[#0e151b] text-sm font-normal leading-normal">{{caste}}</p>
+              </div>
+              </div>
+              <h3 class="text-[#0e151b] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Family Details</h3>
+              <div class="p-4 grid grid-cols-[20%_1fr] gap-x-6">
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1dce6] py-5">
+                <p class="text-[#507695] text-sm font-normal leading-normal">Father's Name</p>
+                <p class="text-[#0e151b] text-sm font-normal leading-normal"> {{fname}} </p>
+              </div>
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1dce6] py-5">
+                <p class="text-[#507695] text-sm font-normal leading-normal">Father's Occupation</p>
+                <p class="text-[#0e151b] text-sm font-normal leading-normal">{{focc}}</p>
+              </div>
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1dce6] py-5">
+                <p class="text-[#507695] text-sm font-normal leading-normal">Mother's Name</p>
+                <p class="text-[#0e151b] text-sm font-normal leading-normal"> {{mname}} </p>
+              </div>
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1dce6] py-5">
+                <p class="text-[#507695] text-sm font-normal leading-normal">Mother's Occupation</p>
+                <p class="text-[#0e151b] text-sm font-normal leading-normal">{{mocc}}</p>
+              </div>
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1dce6] py-5">
+                <p class="text-[#507695] text-sm font-normal leading-normal">Annual Income</p>
+                <p class="text-[#0e151b] text-sm font-normal leading-normal">{{income}}</p>
+              </div>
+            </div>
+            <h3 class="text-[#0e151b] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Academic Records</h3>
+            <div class="p-4 grid grid-cols-[20%_1fr] gap-x-6">
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1dce6] py-5">
+                <p class="text-[#507695] text-sm font-normal leading-normal">10th Grade Marks</p>
+                <p class="text-[#0e151b] text-sm font-normal leading-normal">{{10grade}}</p>
+              </div>
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1dce6] py-5">
+                <p class="text-[#507695] text-sm font-normal leading-normal">12th Grade Marks</p>
+                <p class="text-[#0e151b] text-sm font-normal leading-normal">{{12grade}}</p>
+              </div>
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1dce6] py-5">
+                <p class="text-[#507695] text-sm font-normal leading-normal">Undergraduate Degree or Diploma</p>
+                <p class="text-[#0e151b] text-sm font-normal leading-normal">{{ug_degree}} - {{ug_cgpa}} CGPA</p>
+              </div>
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d1dce6] py-5">
+                <p class="text-[#507695] text-sm font-normal leading-normal">Postgraduate Degree</p>
+                <p class="text-[#0e151b] text-sm font-normal leading-normal">{{pg_degree}} - {{pg_cgpa}} CGPA</p>
+              </div>
+            </div>
+           {%endif%}
+      </div>
+    </div>
+    <script>
+      // Connect to WebSocket for notifications
+      var ws = new WebSocket('ws://localhost:8000/ws/notifications/');
+      
+      ws.onmessage = function(event) {
+          var data = JSON.parse(event.data);
+          if (data.type === 'notification') {
+              alert(data.message); // Replace with your notification UI
+          }
+      };
+  </script>
+{%endblock content1%}

@@ -1,0 +1,109 @@
+{%extends 'events/layouts/base.html'%}
+{%block title%}
+About
+{%endblock title%}
+{%block content%}
+{%load static%}
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto space-y-6">
+            <!-- Header Image -->
+            <div class="relative w-full h-64 bg-cover bg-center rounded-xl overflow-hidden" 
+                 style="background-image: url('https://cdn.usegalileo.ai/sdxl10/493a4a46-f9d2-4142-8c5f-a7976fe48dd1.png')">
+            </div>
+
+            <!-- Mission Section -->
+            <section>
+                <h2 class="text-2xl font-bold text-[#0e141b] mb-4">Our Mission</h2>
+                <p class="text-[#0e141b] leading-relaxed">
+                    The Scholarship Allotment web application simplifies the process of connecting students with suitable scholarship opportunities. By matching student profiles with eligibility criteria set by administrators, the platform ensures students discover relevant scholarships effortlessly. This streamlined approach promotes fairness, efficiency, and accessibility, fostering equal opportunities in education.
+                </p>
+            </section>
+
+            <!-- Profile Section -->
+            <section class="flex items-center bg-white rounded-xl p-4 shadow-sm">
+                <div class="w-24 h-24 rounded-full bg-cover bg-center mr-4" 
+                     style="background-image: url('../static/images/My_pic.jpg')">
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-[#0e141b]">Antonio Biju S</h3>
+                    <p class="text-[#4e7397]">MCA</p>
+                </div>
+            </section>
+
+            <!-- Technologies Section -->
+            <section>
+                <h2 class="text-2xl font-bold text-[#0e141b] mb-4">Technologies And Packages</h2>
+                
+                <!-- Technology Cards -->
+                <div class="grid md:grid-cols-2 gap-4">
+                    <!-- Python -->
+                    <div class="bg-white rounded-xl p-4 flex items-center shadow-sm hover:bg-purple-100 transition">
+                        <div class="w-16 h-16 bg-cover bg-center mr-4" 
+                             style="background-image: url('../static/images/Python.svg')">
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-[#0e141b]">Python Packages</h3>
+                            <p class="text-[#4e7397] text-sm">Selenium, Beautifulsoup, Pandas</p>
+                        </div>
+                    </div>
+
+                    <!-- Django -->
+                    <div class="bg-white rounded-xl p-4 flex items-center shadow-sm hover:bg-purple-100 transition">
+                        <div class="w-16 h-16 bg-cover bg-center mr-4" 
+                             style="background-image: url('../static/images/django.svg')">
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-[#0e141b]">Django</h3>
+                            <p class="text-[#4e7397] text-sm">Python Framework</p>
+                        </div>
+                    </div>
+
+                    <!-- HTML -->
+                    <div class="bg-white rounded-xl p-4 flex items-center shadow-sm hover:bg-purple-100 transition">
+                        <div class="w-16 h-16 bg-cover bg-center mr-4" 
+                             style="background-image: url('../static/images/Html.svg')">
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-[#0e141b]">HTML</h3>
+                            <p class="text-[#4e7397] text-sm">Markup Language</p>
+                        </div>
+                    </div>
+
+                    <!-- CSS -->
+                    <div class="bg-white rounded-xl p-4 flex items-center shadow-sm hover:bg-purple-100 transition">
+                        <div class="w-16 h-16 bg-cover bg-center mr-4" 
+                             style="background-image: url('../static/images/css.svg')">
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-[#0e141b]">CSS</h3>
+                            <p class="text-[#4e7397] text-sm">Tailwind CSS</p>
+                        </div>
+                    </div>
+
+                    <!-- JavaScript -->
+                    <div class="bg-white rounded-xl p-4 flex items-center shadow-sm hover:bg-purple-100 transition">
+                        <div class="w-16 h-16 bg-cover bg-center mr-4" 
+                             style="background-image: url('../static/images/Js.svg')">
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-[#0e141b]">JS</h3>
+                            <p class="text-[#4e7397] text-sm">For scripting</p>
+                        </div>
+                    </div>
+
+                    <!-- MySQL -->
+                    <div class="bg-white rounded-xl p-4 flex items-center shadow-sm hover:bg-purple-100 transition">
+                        <div class="w-16 h-16 bg-cover bg-center mr-4" 
+                             style="background-image: url('../static/images/mysql.svg')">
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-[#0e141b]">MySQL</h3>
+                            <p class="text-[#4e7397] text-sm">Database</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+{%endblock content%}

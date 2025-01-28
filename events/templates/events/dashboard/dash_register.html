@@ -1,0 +1,209 @@
+{% extends 'events/layouts/base.html' %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="px-8 py-6">
+            <h2 class="text-2xl font-bold text-center mb-8">Student Registration</h2>
+            
+            <!-- Progress Steps -->
+            <div class="flex justify-between mb-12">
+                <div class="{% if step == 1 %}bg-blue-500 text-white{% else %}bg-gray-200 text-gray-700{% endif %} px-6 py-2 rounded-full">
+                    Personal Info
+                </div>
+                <div class="{% if step == 2 %}bg-blue-500 text-white{% else %}bg-gray-200 text-gray-700{% endif %} px-6 py-2 rounded-full">
+                    Family Details
+                </div>
+                <div class="{% if step == 3 %}bg-blue-500 text-white{% else %}bg-gray-200 text-gray-700{% endif %} px-6 py-2 rounded-full">
+                    Academic Records
+                </div>
+            </div>
+
+            <form method="post" enctype="multipart/form-data" class="space-y-6">
+                {% csrf_token %}
+                
+                <!-- Personal Information Section (Step 1) -->
+                {% if step == 1 %}
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {% for field in form %}
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-gray-700">
+                            {{ field.label }}
+                        </label>
+                        {{ field }}
+                        {% if field.errors %}
+                        <p class="text-red-500 text-xs italic">{{ field.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <!-- Family Information Section (Step 2) -->
+                {% if step == 2 %}
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {% for field in form %}
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-gray-700">
+                            {{ field.label }}
+                        </label>
+                        {{ field }}
+                        {% if field.errors %}
+                        <p class="text-red-500 text-xs italic">{{ field.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <!-- Academic Records Section (Step 3) -->
+                {% if step == 3 %}
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">
+                        Current Qualification
+                    </label>
+                    {{ form.current_qualification }}
+                    {% if form.current_qualification.errors %}
+                    <p class="text-red-500 text-xs italic">{{ form.current_qualification.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <!-- Academic Fields -->
+                <div id="academic-fields">
+                    <!-- 10th Fields -->
+                    <div id="tenth-fields" class="hidden">
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-700">10th School Name</label>
+                            {{ form.tenth_school_name }}
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-700">10th Marks</label>
+                            {{ form.tenth_marks }}
+                        </div>
+                    </div>
+                
+                    <!-- 12th Fields -->
+                    <div id="twelfth-fields" class="hidden">
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-700">12th School Name</label>
+                            {{ form.twelfth_school_name }}
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-700">12th Marks</label>
+                            {{ form.twelfth_marks }}
+                        </div>
+                    </div>
+                
+                    <!-- UG Fields -->
+                    <div id="ug-fields" class="hidden">
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-700">UG College Name</label>
+                            {{ form.ug_college_name }}
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-700">UG Degree</label>
+                            {{ form.ug_degree }}
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-700">UG Branch</label>
+                            {{ form.ug_branch }}
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-700">UG Percentage</label>
+                            {{ form.ug_percentage }}
+                        </div>
+                        
+                    </div>
+                
+                    <!-- PG Fields -->
+                    <div id="pg-fields" class="hidden">
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-700">PG College Name</label>
+                            {{ form.pg_college_name }}
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-700">PG Degree</label>
+                            {{ form.pg_degree }}
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-700">PG Branch</label>
+                            {{ form.pg_branch }}
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-700">PG Percentage</label>
+                            {{ form.pg_percentage }}
+                        </div>
+                        
+                    </div>
+                
+                    <!-- Research Fields -->
+                    <div id="research-fields" class="hidden">
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-700">Research College Name</label>
+                            {{ form.research_college_name }}
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-700">Research Degree</label>
+                            {{ form.research_degree }}
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-700">Research Program</label>
+                            {{ form.research_program }}
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-700">Research Percentage</label>
+                            {{ form.research_percentage }}
+                        </div>
+                    </div>
+                </div>
+                
+                {% endif %}
+
+                <!-- Submit Button -->
+                <div class="flex justify-between mt-8">
+                    {% if step > 1 %}
+                    <button type="button" onclick="window.history.back()" 
+                            class="bg-gray-500 text-white px-6 py-2 rounded-md hover:bg-gray-600">
+                        Previous
+                    </button>
+                    {% endif %}
+                    <button type="submit" 
+                            class="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 ml-auto">
+                        {% if step == 3 %}Submit{% else %}Next{% endif %}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const qualificationDropdown = document.querySelector('select[name="current_qualification"]');
+        const fieldsMapping = {
+            "10th": ["tenth-fields"],
+            "12th": ["tenth-fields", "twelfth-fields"],
+            "UG": ["tenth-fields", "twelfth-fields", "ug-fields"],
+            "PG": ["tenth-fields", "twelfth-fields", "ug-fields", "pg-fields"],
+            "Mphil/Ph.D": ["tenth-fields", "twelfth-fields", "ug-fields", "pg-fields", "research-fields"]
+        };
+
+        function toggleFields() {
+            // Hide all academic fields
+            document.querySelectorAll("#academic-fields > div").forEach(field => field.classList.add("hidden"));
+
+            // Show only relevant fields based on selection
+            const selectedQualification = qualificationDropdown.value;
+            if (fieldsMapping[selectedQualification]) {
+                fieldsMapping[selectedQualification].forEach(id => {
+                    const fieldDiv = document.getElementById(id);
+                    if (fieldDiv) fieldDiv.classList.remove("hidden");
+                });
+            }
+        }
+
+        qualificationDropdown.addEventListener("change", toggleFields);
+        toggleFields(); // Run on page load
+    });
+</script>
+{% endblock content%}

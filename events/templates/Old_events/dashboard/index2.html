@@ -1,0 +1,592 @@
+
+</head>
+{%extends 'events/layouts/base.html'%}
+
+{%block content1%}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/luxon/2.0.2/luxon.min.js"></script>
+<div class="bg-gray-100 h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-md bg-white rounded-lg shadow-lg overflow-hidden">
+        <!-- Header -->
+        <div class="bg-blue-600 p-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-white font-bold">AI Assistant</h3>
+                    <p class="text-blue-100 text-sm">Online</p>
+                </div>
+            </div>
+            <button id="theme-toggle" class="text-white hover:text-blue-200 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Chat Messages -->
+        <div id="chat-messages" class="h-96 overflow-y-auto p-4 space-y-4"></div>
+
+        <!-- Input Area -->
+        <div class="border-t p-4 bg-gray-50">
+            <div class="flex space-x-2">
+                <input type="text" id="message-input" 
+                    class="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Type your message...">
+                <button id="send-button" 
+                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                    Send
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+    <script>
+        const DateTime = luxon.DateTime;
+        let isDarkMode = false;
+
+        // DOM Elements
+        const chatMessages = document.getElementById('chat-messages');
+        const messageInput = document.getElementById('message-input');
+        const sendButton = document.getElementById('send-button');
+        const themeToggle = document.getElementById('theme-toggle');
+
+        // Bot responses
+        const botResponses = {
+            hello: "Hi there! How can I help you today?",
+            help: "I can help you with various tasks. Just let me know what you need!",
+            bye: "Goodbye! Have a great day!",
+            default: "I'm not sure how to respond to that. Could you rephrase your question?"
+        };
+
+        // Message Templates
+        function createMessage(content, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `flex ${isUser ? 'justify-end' : 'justify-start'}`;
+
+            const messageBubble = document.createElement('div');
+            messageBubble.className = `max-w-xs p-3 rounded-lg ${
+                isUser ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'
+            }`;
+
+            const messageContent = document.createElement('p');
+            messageContent.className = 'text-sm';
+            messageContent.textContent = content;
+
+            const timeDiv = document.createElement('div');
+            timeDiv.className = 'text-xs mt-1 text-gray-500';
+            timeDiv.textContent = DateTime.now().toLocaleString(DateTime.TIME_SIMPLE);
+
+            messageBubble.appendChild(messageContent);
+            messageBubble.appendChild(timeDiv);
+            messageDiv.appendChild(messageBubble);
+
+            return messageDiv;
+        }
+
+        // Send Message Function
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            if (!message) return;
+
+            // Add user message
+            chatMessages.appendChild(createMessage(message, true));
+
+            // Add bot response
+            setTimeout(() => {
+                const response = getBotResponse(message.toLowerCase());
+                chatMessages.appendChild(createMessage(response));
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 500);
+
+            messageInput.value = '';
+            messageInput.focus();
+        }
+
+        // Get Bot Response
+        function getBotResponse(message) {
+            if (message.includes('hello') || message.includes('hi')) return botResponses.hello;
+            if (message.includes('help')) return botResponses.help;
+            if (message.includes('bye')) return botResponses.bye;
+            return botResponses.default;
+        }
+
+        // Toggle Dark Mode
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('bg-gray-900');
+            const container = document.querySelector('.bg-white');
+            container.classList.toggle('bg-gray-800');
+            container.classList.toggle('bg-white');
+        }
+
+        // Event Listeners
+        sendButton.addEventListener('click', sendMessage);
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+        themeToggle.addEventListener('click', toggleDarkMode);
+
+        // Initial bot message
+        setTimeout(() => {
+            chatMessages.appendChild(createMessage("Hello! How can I assist you today?"));
+        }, 500);
+    </script>
+
+{%endblock content1%}
+
+
+<!-- {%extends 'events/layouts/base.html'%}
+ {%block tile%}  Matching Scholarships {%endblock%}
+ {%block content%}
+    <h1>Scholarships Matching Your Profile</h1>
+    <ul>
+        {% for scholarship in scholarships %}
+            <li>
+                <strong>{{ scholarship.name }}</strong><br>
+                Eligibility: {{ scholarship.eligibility_criteria }}<br>
+                Deadline: {{ scholarship.application_deadline }}<br>
+                Benefits: {{ scholarship.benefits }}
+                Link : <a href="{{ scholarship.link }}">Apply</a>
+            </li>
+        {% empty %}
+            <li>No matching scholarships found.</li>
+        {% endfor %}
+    </ul>
+{%endblock content%} -->
+
+{%extends 'events/layouts/base.html'%}
+    {%load static%}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {%block dash_title%}AI Chatbot{%endblock dash_title%}
+    <link rel="stylesheet" href="{% static 'css/chatbot.css' %}">
+{%block content1%}
+<div class="body">
+    <div class="chat-container">
+        <h1 class="h1">AI Chatbot</h1>
+        <div id="chatbox" class="chat-box">
+            <!-- Conversation history will appear here -->
+        </div>
+        <div class="input-container">
+            <input type="text" id="userInput" class="input" placeholder="Type your message...">
+            <button id="sendButton">Send</button>
+        </div>
+    </div>
+    <script src="{% static 'js/chatbot.js' %}"></script>
+</div>
+{%endblock content1%}
+
+
+link = scholarship.link
+                user_email = request.user.email
+                subject = "Your are Qualified for the scholarship"
+                messages= f"""Scholarship name : {scholarship.name}
+Scholarship benefits : {scholarship.benefits}
+Scholarship link : {link}
+Hurry up! Lastdate to apply the scholarship is : {scholarship.application_deadline} """
+                send_greeting_email(request,user_email,subject,messages)
+                # name = scholarship.name
+                # lod = scholarship.application_deadline
+                # Send the link as a notification
+                send_ntfy_notification(
+                    topic="scholarship",  # Your subscribed topic
+                    message=f"You are qualified in the scholarship and their link: {link}",
+                    title="Schloarship Alert",
+                    priority=4,  # High priority
+                    tags=["Scholarship", "Link"]
+                )
+
+
+                from django.shortcuts import render,redirect,get_object_or_404
+                from django.http import JsonResponse
+                from django.core.mail import send_mail
+                from django.conf import settings
+                from django.contrib import messages
+                from django.contrib.auth import authenticate,login,logout
+                from langchain_ollama import OllamaLLM
+                from langchain_core.prompts import ChatPromptTemplate
+                from .models import *
+                from .forms  import *
+                from .utils  import load_scholarships_from_dataset
+                # from sklearn.tree import DecisionTreeClassifier
+                # import pandas as pd
+                import json
+                from . notify import *
+                
+                
+                def home(request):
+                    return render(request,'events/index.html',{})
+                
+                
+                def loginpage(request): 
+                    if request.user.is_authenticated:
+                        return redirect('login')
+                    else:
+                        if request.method=='POST':
+                            name = request.POST.get('username')
+                            pwd = request.POST.get('password')
+                            user = authenticate(username=name,password=pwd)
+                            if user is not None:
+                                login(request,user)
+                                messages.success(request,'Login Succesfully')
+                                return redirect('home')
+                            else:
+                                messages.warning(request,'invalid login')
+                        
+                        return render(request,'events/auth/loginpage.html')
+                        
+                
+                
+                def logoutpage(request):
+                    if request.user.is_authenticated:
+                        logout(request)
+                        messages.success(request,'Logout Successfully')
+                        return redirect('home')
+                
+                
+                def register(request):
+                    form=CustomUserForm()
+                    if request.method=='POST':
+                        form=CustomUserForm(request.POST)
+                        if form.is_valid():
+                            form.save()
+                            messages.success(request,"Registraion succesfull you can login now......")
+                            return redirect('login')
+                    return render(request,'events/auth/register.html',{'form':form})
+                
+                def contact_view(request):
+                    if request.method == 'POST':
+                        form = ContactForm(request.POST)
+                        if form.is_valid():
+                            name = form.cleaned_data['name']
+                            email = form.cleaned_data['email']
+                            message = form.cleaned_data['message']
+                            
+                            # Send email
+                            send_mail(
+                                subject=f"New Contact Form Submission from {name}",
+                                message=f"""Name : {name}
+                Email : {email}
+                Message : {message}
+                                """,
+                                from_email=email,
+                                recipient_list=[settings.EMAIL_HOST_USER],  # Send to your email
+                                fail_silently=False,
+                            )
+                            
+                            # Redirect to a success page or show a success message
+                            return redirect('contact_success')
+                    else:
+                        form = ContactForm()
+                    
+                    return render(request, 'events/contact/contact.html', {'form': form})
+                
+                def contact_success_view(request):
+                    return render(request, 'events/contact/contact_success.html')
+                
+                
+                
+                
+                
+                def dashboard(request):
+                    try:
+                        student_info = PersonalInformation.objects.get(user=request.user)
+                
+                        # Pass individual variables to the context
+                        context = {
+                            'is_dashboard':True,
+                            'name': student_info.name,
+                            'email':request.user.email,
+                            'age': student_info.age,
+                            'dob': student_info.date_of_birth,
+                            'gender': student_info.gender,
+                            'fname': student_info.father_name,
+                            'focc': student_info.father_occupation,
+                            'mname': student_info.mother_name,
+                            'mocc': student_info.mother_occupation,
+                            'income': student_info.annual_income,
+                            'caste': student_info.caste,
+                            '10grade': student_info.tenth_grade_marks,
+                            '12grade': student_info.twelfth_grade_marks,
+                            'ug_degree': student_info.undergraduate_degree,
+                            'ug_cgpa': student_info.undergraduate_cgpa,
+                            'pg_degree': student_info.postgraduate_degree,
+                            'pg_cgpa': student_info.postgraduate_cgpa,
+                            'profile':student_info.profile_photo,
+                        }
+                    except PersonalInformation.DoesNotExist:
+                        return redirect('dash_register')
+                
+                    return render(request, 'events/dashboard/index.html', context)
+                
+                
+                
+                def registration_view(request):
+                    # Get the current step; default to 1
+                    step = request.session.get('reg_step', 1)
+                    
+                    # Retrieve or create the instance during the first step
+                    instance_id = request.session.get('reg_instance_id')
+                    instance = None
+                    if instance_id:
+                        from .models import PersonalInformation
+                        instance = PersonalInformation.objects.filter(id=instance_id).first()
+                
+                    if request.method == 'POST':
+                        # Determine the current form based on the step
+                        if step == 1:
+                            form = PersonalInfoForm(request.POST, request.FILES, instance=instance)
+                        elif step == 2:
+                            form = FamilyDetailsForm(request.POST, instance=instance)
+                        else:
+                            form = AcademicRecordsForm(request.POST, instance=instance)
+                
+                        if form.is_valid():
+                            # Save the instance
+                            instance = form.save(commit=False)
+                            instance.user = request.user
+                            instance.save()
+                
+                            # Store instance ID in the session
+                            if not request.session.get('reg_instance_id'):
+                                request.session['reg_instance_id'] = instance.id
+                
+                            if step < 3:
+                                # Proceed to the next step
+                                request.session['reg_step'] = step + 1
+                                return redirect('dash_register')
+                            else:
+                                # Clear session data after final step
+                                del request.session['reg_step']
+                                del request.session['reg_instance_id']
+                                return redirect('dash')
+                    else:
+                        # Initialize the appropriate form for the step
+                        if step == 1:
+                            form = PersonalInfoForm(instance=instance)
+                        elif step == 2:
+                            form = FamilyDetailsForm(instance=instance)
+                        else:
+                            form = AcademicRecordsForm(instance=instance)
+                    
+                    # Render the form for the current step
+                    return render(request, 'events/dashboard/register_profile.html', {
+                        'form': form,
+                        'step': step,
+                        'is_dashboard': True
+                    })
+                
+                def edit_profile(request):
+                    student = get_object_or_404(PersonalInformation, user=request.user)
+                    
+                    if request.method == 'POST':
+                        personal_form = PersonalInfoForm(request.POST, request.FILES, instance=student, prefix='personal')
+                        family_form = FamilyDetailsForm(request.POST, instance=student, prefix='family')
+                        academic_form = AcademicRecordsForm(request.POST, instance=student, prefix='academic')
+                        
+                        if all([personal_form.is_valid(), family_form.is_valid(), academic_form.is_valid()]):
+                            personal_form.save()
+                            family_form.save()
+                            academic_form.save()
+                            messages.success(request, 'Profile updated successfully!')
+                            return redirect('dash')
+                    else:
+                        personal_form = PersonalInfoForm(instance=student, prefix='personal')
+                        family_form = FamilyDetailsForm(instance=student, prefix='family')
+                        academic_form = AcademicRecordsForm(instance=student, prefix='academic')
+                    
+                    context = {
+                        'personal_form': personal_form,
+                        'family_form': family_form,
+                        'academic_form': academic_form,
+                        'student': student,
+                        'is_dashboard':True,
+                        'nav': True,
+                    }
+                    return render(request, 'events/dashboard/edit_profile.html', context)
+                
+                def indef(request):
+                    contex={
+                        'is_dashboard':True,
+                    }
+                    return render(request, 'events/dashboard/index2.html',contex)
+                
+                
+                # Initialize the LLM and chain
+                template = """
+                You are a virtual assistant named Sora, a scholarship assistant. You specialize in answering scholarship-related queries with accurate and concise information.  
+                
+                1. **Scholarship-Specific Queries**:  
+                   - Provide detailed information about scholarships, eligibility criteria, application processes, deadlines, and benefits.  
+                   - Example questions:  
+                     - "What are the scholarships available for undergraduate students?"  
+                     - "How can I apply for the XYZ scholarship?"  
+                     - "What is the deadline for the ABC scholarship?"  
+                   - Format your responses clearly:  
+                     ```
+                     Scholarship Name: [Name of Scholarship]  break this line
+                     Eligibility: [Eligibility criteria]  
+                     Benefits: [Details]  
+                     Application Deadline: [Deadline] 
+                     How to Apply: [Application Process]  
+                     ```  
+                
+                2. **Unrelated Queries**:  
+                   - Respond with:  
+                     "Sorry, I am a scholarship assistant. I specialize in helping you with scholarship-related information."  
+                
+                3. **General Questions and Greetings**:  
+                   - Greet the user politely and appropriately based on the context. Examples:  
+                     - User: "Hello"  
+                       Sora: "Hello! How can I assist you with scholarships today?"  
+                     - User: "What is your name?"  
+                       Sora: "My name is Sora. I am here to help you with scholarship-related queries."  
+                     - User: "What do you do?"  
+                       Sora: "I assist students by providing information about scholarships, their eligibility, and application processes."  
+                
+                4. **Formatting for General Responses**:  
+                   - Maintain proper alignment in your answers. For example:  
+                     ```
+                     Question: "What is your name?"  
+                     Response:  
+                     - My name is Sora.  
+                     - I am here to assist you with scholarship-related queries.  
+                     ```  
+                
+                5. **Professional Tone**:  
+                   - Maintain a friendly, respectful, and professional tone in all your responses.  
+                
+                6. **Catch-All Responses**:  
+                   - If the user's query doesn't match your expertise or is unclear, respond politely:  
+                     "I'm sorry, I didn't understand that. Could you please ask a scholarship-related question or clarify your query?"  
+                
+                Here is the conversation history : {context}
+                Question: {question}
+                
+                Answer: 
+                """
+                model = OllamaLLM(model="llama3.2")
+                prompt = ChatPromptTemplate.from_template(template)
+                chain = prompt | model
+                
+                
+                def chatbot_view(request):
+                    student = get_object_or_404(PersonalInformation, user=request.user)
+                    context={
+                        'is_dashboard':True,
+                        'student':student,
+                        'nav':True,
+                    }
+                    return render(request, "events/chatbot/index.html",context)
+                
+                
+                def handle_message(request):
+                    if request.method == "POST":
+                        data = json.loads(request.body)
+                        user_message = data.get("message", "")
+                        context = data.get("context", "")
+                
+                        # Invoke the chatbot chain
+                        result = chain.invoke({"context": context, "question": user_message})
+                        return JsonResponse({"response": result, "updated_context": f"{context}\nUser: {user_message}\nAI: {result}"})
+                
+                    return JsonResponse({"error": "Invalid request method"}, status=400)
+                
+                
+                
+                def scholarship_view(request):
+                    scholarships = Scholarship.objects.all()
+                    return render(request, "events/dashboard/scholarship_view.html", {"scholarships": scholarships})
+                
+                
+                
+                def classify_and_display(request):
+                    # Load data on page load
+                    load_scholarships_from_dataset()
+                    
+                    # Get the user's profile
+                    user_profile = request.user.personal_information.first()
+                    student = get_object_or_404(PersonalInformation, user=request.user)
+                    matching_scholarships = []
+                    
+                    if user_profile:
+                        # Define the decision tree
+                        decision_tree = {
+                            'condition': lambda sch, user: sch.annual_income_limit >= user.annual_income or sch.annual_income_limit == 0,
+                            'then': {
+                                'condition': lambda sch, user: sch.caste == user.caste or sch.caste == 'Open' or sch.caste is None,
+                                'then': {
+                                    'condition': lambda sch, user: sch.gender == user.gender or sch.gender == 'All' or sch.gender is None,
+                                    'then': {
+                                        'condition': lambda sch, user: 
+                                            (sch.minimum_marks == 0 or (user.tenth_grade_marks is not None and user.tenth_grade_marks >= sch.minimum_marks)) and
+                                            (sch.tenth_marks == 0 or (user.tenth_grade_marks is not None and user.tenth_grade_marks >= sch.tenth_marks)) and
+                                            (sch.twelfth_marks == 0 or (user.twelfth_grade_marks is not None and user.twelfth_grade_marks >= sch.twelfth_marks)) and
+                                            (sch.ug_marks is None or sch.ug_marks == 0 or (user.undergraduate_cgpa is not None and user.undergraduate_cgpa >= sch.ug_marks)) and
+                                            (sch.pg_marks is None or sch.pg_marks == 0 or (user.postgraduate_cgpa is not None and user.postgraduate_cgpa >= sch.pg_marks)),
+                                        'then': True,
+                                        'else': False
+                                    },
+                                    'else': False
+                                },
+                                'else': False
+                            },
+                            'else': False
+                        }
+                        
+                        # Get all scholarships and filter using the decision tree
+                        all_scholarships = Scholarship.objects.all()
+                        for scholarship in all_scholarships:
+                            if evaluate_decision_tree(decision_tree, scholarship, user_profile):
+                                matching_scholarships.append(scholarship)
+                                link = scholarship.link
+                                user_email = request.user.email
+                                subject = "Your are Qualified for the scholarship"
+                                messages= f"""Scholarship name : {scholarship.name}
+                Scholarship benefits : {scholarship.benefits}
+                Scholarship link : {link}
+                Hurry up! Lastdate to apply the scholarship is : {scholarship.application_deadline} """
+                                send_greeting_email(request,user_email,subject,messages)
+                                # name = scholarship.name
+                                # lod = scholarship.application_deadline
+                                # Send the link as a notification
+                                send_ntfy_notification(
+                                    topic="scholarship",  # Your subscribed topic
+                                    message=f"You are qualified in the scholarship and their link: {link}",
+                                    title="Schloarship Alert",
+                                    priority=4,  # High priority
+                                    tags=["Scholarship", "Link"]
+                                )
+                
+                            
+                    context = {
+                        'scholarships': matching_scholarships,
+                        'is_dashboard': True, 
+                        'nav': True,
+                        'student': student,
+                    }
+                    return render(request, 'events/dashboard/scholarship_view.html', context)
+                
+                def evaluate_decision_tree(node, scholarship, user_profile):
+                    condition = node.get('condition')
+                    then_node = node.get('then')
+                    else_node = node.get('else')
+                    
+                    if condition:
+                        if condition(scholarship, user_profile):
+                            if isinstance(then_node, bool):
+                                return then_node
+                            else:
+                                return evaluate_decision_tree(then_node, scholarship, user_profile)
+                        else:
+                            if isinstance(else_node, bool):
+                                return else_node
+                            else:
+                                return evaluate_decision_tree(else_node, scholarship, user_profile)
+                    else:
+                        return False

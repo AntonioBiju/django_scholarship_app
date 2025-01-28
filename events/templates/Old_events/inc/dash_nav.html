@@ -1,0 +1,41 @@
+<div class="relative flex size-full min-h-screen flex-col bg-[#f8fafb] group/design-root overflow-x-hidden" style='font-family: Inter, "Noto Sans", sans-serif;'>
+  <div class="layout-container flex h-full grow flex-col">
+    <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e8eef3] px-10 py-3">
+      <div class="flex items-center gap-4 text-[#0e151b]">
+        <div class="size-4">
+        </div>
+        <h2 class="text-[#0e151b] text-lg font-bold leading-tight tracking-[-0.015em]">DashBoard</h2>
+      </div>
+      <div class="flex centra justify-end gap-8">
+        <div class="flex items-center gap-9">
+          <a class="text-[#0e151b] text-sm font-medium lead-normal" href="{% url 'dash' %}">Profile</a>
+          <a class="text-[#0e151b] text-sm font-medium lead-normal" href="{%url 'edit'%}">Edit Profile</a>
+          <a class="text-[#0e151b] text-sm font-medium lead-normal" href="{% url 'scholarships' %}">Scholarships</a>
+          <a class="text-[#0e151b] text-sm font-medium lead-normal" href="{%url 'chatbot'%}">Help Desk</a>
+        </div>
+      </div>
+      <div class="flex centra justify-end gap-8">
+        {%if nav%}
+        <div
+        class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+        style='background-image: url("{{student.profile_photo.url}}");'
+        ></div>
+        {%else%}
+        <div
+        class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+        style='background-image: url("{{profile.url}}");'
+        ></div>
+        {%endif%}
+        
+        <a class="text-[#0e151b] text-sm font-medium lead-normal" href="{%url 'dash'%}">{{request.user}}</a>
+        <a class="text-[#0e151b] text-sm font-medium lead-normal" href="{%url 'logout'%}">Logout</a>
+      </div>
+      <style>
+        .centra{
+          flex: 0 0%;
+        }
+        .lead-normal {
+          line-height: 3;
+        }
+      </style>
+    </header>

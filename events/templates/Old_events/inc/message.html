@@ -1,0 +1,22 @@
+<!-- base.html or relevant template -->
+{% if messages %}
+  {% for message in messages %}
+    {% if is_dashboard %}
+      <!-- Tailwind CSS toast -->
+      <div class="fixed top-20 right-5 px-4 py-3 prose prose-sm prose-indigo rounded-lg bg-indigo-50 text-indigo-900">
+        <strong>{{ message.tags }}</strong>: {{ message }}
+      </div>
+    {% else %}
+      <!-- Bootstrap toast -->
+      <div class="position-fixed top-20 end-0 p-3" style="z-index: 11">
+        <div class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="d-flex">
+            <div class="toast-body">
+              <strong>{{ message.tags }}</strong>: {{ message }}
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  {% endfor %}
+{% endif %}

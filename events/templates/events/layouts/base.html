@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{%block title%}  {%endblock title%}</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Work+Sans%3Awght%40400%3B500%3B700%3B900"
+    />
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style>
+      /* Loader CSS */
+      #loader {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(255, 255, 255, 0.8);
+          z-index: 9999;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          visibility: hidden;
+      }
+
+      #loader .spinner {
+          border: 4px solid #f3f3f3;
+          border-top: 4px solid #3498db;
+          border-radius: 50%;
+          width: 40px;
+          height: 40px;
+          animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+          0% {
+              transform: rotate(0deg);
+          }
+          100% {
+              transform: rotate(360deg);
+          }
+      }
+  </style>
+</head>
+<body>
+     <!-- Loader -->
+     <div id="loader">
+      <div class="spinner"></div>
+  </div>
+    {%include 'events/inc/nav.html'%}
+    {%include 'events/inc/message.html'%}
+    
+    {%block content%} 
+    
+    
+    {%endblock content%}
+    <script>
+        // Show loader during page load
+        document.onreadystatechange = function () {
+            const loader = document.getElementById("loader");
+            if (document.readyState === "complete") {
+                loader.style.display = "none"; // Hide loader when page is fully loaded
+            }
+        };
+
+      // Show loader during form submission
+      const forms = document.querySelectorAll("form");
+      forms.forEach((form) => {
+          form.addEventListener("submit", () => {
+              document.getElementById("loader").style.visibility = "visible";
+          });
+      });
+  </script>
+</body>
+</html>
