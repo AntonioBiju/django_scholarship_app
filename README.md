@@ -1,0 +1,1 @@
+# django_scholarship_allotment_app
