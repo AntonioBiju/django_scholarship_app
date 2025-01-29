@@ -1,0 +1,1 @@
+from scholarship_allotment.wsgi import  application

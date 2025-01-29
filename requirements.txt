@@ -1,18 +1,19 @@
 django
-mysqlclient
+mysqlclient  # or replace with mysql-connector-python if needed
 pillow
 pandas
 scikit-learn
 django-jazzmin
 djangorestframework
 django-cors-headers
-selenium
+selenium  # Check if needed for production
 beautifulsoup4
 html5lib
 lxml
-streamlit
+streamlit  # Check if needed alongside Django
 langchain
 langchain-ollama
-Ollama
+ollama
 python-dotenv
 python-telegram-bot
+gunicorn  # Required for deployment

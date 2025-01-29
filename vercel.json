@@ -1,11 +1,11 @@
 {
     "builds" :[{
-        "src":"scholarship_allotment/wsgi.py",
+        "src":"server.py",
         "use":"@vercel/python",
         "config":{"maxLambdaSize":"15mb","runtime":"pyhton3.11"}
     }],
     "routes" : [{
         "src":"/(.*)",
-        "dest":"scholarship_allotment/wsgi.py"
+        "dest":"server.py"
     }]
 }
