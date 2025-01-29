@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
     "version":2,
     "builds" :[{
         "src":"server.py",
@@ -8,5 +9,15 @@
     "routes" : [{
         "src":"/(.*)",
         "dest":"server.py"
+=======
+    "builds" :[{
+        "src":"scholarship_allotment/wsgi.py",
+        "use":"@vercel/python",
+        "config":{"maxLambdaSize":"15mb","runtime":"pyhton3.11.5"}
+    }],
+    "routes" : [{
+        "src":"/(.*)",
+        "dest":"scholarship_allotment/wsgi.py"
+>>>>>>> 298ed8322414b62d1a6daed97236d0eaea9fbd94
     }]
 }
