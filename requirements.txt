@@ -1,5 +1,5 @@
 django
-mysqlclient  # or replace with mysql-connector-python if needed
+mysql-connector-python  # or replace with mysql-connector-python if needed
 pillow
 pandas
 scikit-learn
