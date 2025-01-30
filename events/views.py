@@ -45,26 +45,28 @@ def contact(request):
 
 
 def loginpage(request):
-
     if request.user.is_authenticated:
         return redirect('home')
     else:
-        if request.method=='POST':
-            email = request.POST.get('email')
-            username = User.objects.get(email=email.lower()).username
-            pwd = request.POST.get('password')            
-            print(username,pwd)
-            user = authenticate(username=username,password=pwd)
-            print(user)
-            if user is not None:
-                login(request,user)
-                messages.success(request,'Login Succesfully')
-                return redirect('home')
+        if request.method == 'POST':
+            email = request.POST.get('email').lower()
+            user = User.objects.filter(email=email).first()  # Get the first matching user
+
+            if user:
+                username = user.username
+                pwd = request.POST.get('password')
+                authenticated_user = authenticate(username=username, password=pwd)
+                
+                if authenticated_user is not None:
+                    login(request, authenticated_user)
+                    messages.success(request, 'Login Successfully')
+                    return redirect('home')
+                else:
+                    messages.warning(request, 'Invalid login')
             else:
-                messages.warning(request,'invalid login')
-        
-        return render(request,'events/auth/loginpage.html')
-    # return render(request,"events/auth/loginpage.html")
+                messages.warning(request, 'Email not found')
+
+        return render(request, 'events/auth/loginpage.html')
 
 
 def register(request):
