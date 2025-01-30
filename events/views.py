@@ -52,7 +52,7 @@ def loginpage(request):
         if request.method=='POST':
             email = request.POST.get('email')
             username = User.objects.get(email=email.lower()).username
-            pwd = request.POST.get('password')
+            pwd = request.POST.get('password')            
             print(username,pwd)
             user = authenticate(username=username,password=pwd)
             print(user)
